@@ -1,12 +1,19 @@
 import Backdrop from "../Backdrop/Backdrop";
 
+interface buttonConfig {
+    type: string;
+    label: string;
+    onClick: () => void;
+}
+
 interface Props extends React.PropsWithChildren {
   show: boolean;
   title: string;
   onClose: React.MouseEventHandler;
+  buttons: buttonConfig[];
 }
 
-const Modal: React.FC<Props> = ({ show, title, onClose, children }) => {
+const Modal: React.FC<Props> = ({ show, title, onClose, buttons, children }) => {
   return (
     <>
       <Backdrop show={show} onClick={onClose} />
@@ -18,6 +25,11 @@ const Modal: React.FC<Props> = ({ show, title, onClose, children }) => {
               <button className="btn fw-bold fs-3 p-0" onClick={onClose}>x</button>
             </div>
             {children}
+            <div className="modal-footer">
+              {buttons.map((buttonItem) => (
+                  <button key={buttonItem.label} className={`btn btn-${buttonItem.type}`} onClick={buttonItem.onClick}>{buttonItem.label}</button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
